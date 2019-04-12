@@ -3,3 +3,6 @@ workstation:
     - pkgs:
       - firefox
       - chromium-browser
+      - htop
+      - screenfetch
+      - neofetch
