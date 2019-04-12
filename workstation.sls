@@ -1,8 +1,9 @@
 workstation:
   pkg.installed:
     - pkgs:
-      - firefox
-      - chromium-browser
       - htop
-      - screenfetch
-      - neofetch
+      - firefox
+      - libreoffice
+      - vlc
+      - gedit
+      - gimp
