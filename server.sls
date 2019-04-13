@@ -81,7 +81,7 @@ php-apache2service:
     - source: salt://www/test.php
 
 
-#Samba asetukset
+#Samba asetukset, lisätään julkinen jaettu kansio, jossa kaikilla on lukuoikeudet ja sisään pääsee anonyymisti.
 
 /samba/public:
   file.directory:
