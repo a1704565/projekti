@@ -1,11 +1,10 @@
 #Asennettavat tiedostot
 
-server-software:
+server:
   pkg.installed:
     - pkgs:
       - htop
       - openssh-client
-
 
 
 #Apache2 asennus ja asetukset
@@ -30,7 +29,7 @@ apache2service:
     - name: apache2
     - watch:
       - file: /etc/apache2/mods-enabled/userdir.conf
-- file: /etc/apache2/mods-enabled/userdir.load
+      - file: /etc/apache2/mods-enabled/userdir.load
 
 
 
