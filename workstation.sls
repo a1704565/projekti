@@ -10,6 +10,7 @@ workstation:
       - vlc
       - gedit
       - gimp
+      - blender
 
 #Palomuuriasetukset tuodaan tiedostopolusta
 
