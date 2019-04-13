@@ -81,7 +81,7 @@ php-apache2service:
     - source: salt://www/test.php
 
 
-#Samba asetukset, lisätään julkinen jaettu kansio, jossa kaikilla on lukuoikeudet ja sisään pääsee anonyymisti.
+#Samba asetukset, lisätään julkinen jaettu kansio, jossa kaikilla on lukuoikeudet ja sisään pääsee anonyymisti. License.md tiedosto siirtyy jaettuun kansioon myös.
 
 /samba/public:
   file.directory:
@@ -102,6 +102,10 @@ samba-service:
     - name: smbd.service
     - onchanges:
       - file: /etc/samba/smb.conf
+
+/samba/public/license.md:
+  file.managed:
+    - source: salt://www/license.md
 
 
 #Palomuuriasetukset palvelinympäristöön tuodaan tiedostopolusta, jos muutoksia havaitaan tiedostoissa, niin palvelu käynnistetään uudestaan, jotta muutokset tulisivat voimaan.
