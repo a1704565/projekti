@@ -1,4 +1,7 @@
-#Asennettavat tiedostot
+#Copyright 2019 Juha-Pekka Pulkkinen https://github.com/a1704565 GNU General Public License v3.0
+
+
+#Asennettavat ohjelmistot
 
 server:
   pkg.installed:
@@ -7,7 +10,7 @@ server:
       - openssh-client
 
 
-#Apache2 asennus ja asetukset
+#Apache2 asennus ja asetukset, mikäli muutoksia on havaittu, niin apache käynnistetään uduestaan
 
 apache2:
   pkg.installed
@@ -33,7 +36,7 @@ apache2service:
 
 
 
-#Palomuuriasetukset palvelinympäristöön tuodaan tiedostopolusta
+#Palomuuriasetukset palvelinympäristöön tuodaan tiedostopolusta, jos muutoksia havaitaan tiedostoissa, niin palvelu käynnistetään uudestaan, jotta muutokset tulisivat voimaan.
 
 /etc/ufw/after6.rules:
   file.managed:
@@ -79,4 +82,46 @@ ufw-service:
       - file: /etc/ufw/ufw.conf
       - file: /etc/ufw/user6.rules
       - file: /etc/ufw/user.rules
+
+#PHP asennus ja asetusten ottaminen käyttöön. Mikäli muutoksia tapahtuu, käynnistetään olennaiset palvelut uudestaan, jotta muutokset tulisivat voimaan.
+
+php:
+  pkg.installed:
+    - pkgs:
+      - php
+      - php-pear
+      - php7.2-dev
+      - php7.2-zip
+      - php7.2-curl
+      - php7.2-gd
+      - php7.2-mysql
+      - php7.2-xml
+      - libapache2-mod-php7.2
+
+/etc/apache2/mods-available/php7.2.conf:
+  file.managed:
+    - source: salt://www/php7.2.conf
+
+/etc/apache2/mods-available/php7.2.load:
+  file.managed:
+    - source: salt://www/php7.2.load
+
+/etc/apache2/mods-enabled/php7.2.conf:
+  file.symlink:
+    - target: ../mods-available/php7.2.conf
+
+/etc/apache2/mods-enabled/php7.2.load:
+  file.symlink:
+    - target: ../mods-available/php7.2.load
+
+php-apache2service:
+  service.running:
+    - name: apache2
+    - onchanges:
+      - file: /etc/apache2/mods-available/php7.2.conf
+      - file: /etc/apache2/mods-available/php7.2.load
+
+/var/www/html/test.php:
+  file.managed:
+    - source: salt://www/test.php
 
